@@ -72,7 +72,7 @@ viewof c = Inputs.range(
 )
 
 viewof r = Inputs.range(
-  [.1, 5], 
+  [.1, 1], 
   {value: 1, step: .1, label: "r (prey growth rate)"}
 )
 
@@ -82,7 +82,7 @@ viewof b = Inputs.range(
 )
 
 viewof d = Inputs.range(
-  [.1, 5], 
+  [.1, 1], 
   {value: 1, step: .1, label: "d death rate of predators)"}
 )
 ```
