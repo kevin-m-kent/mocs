@@ -2,9 +2,19 @@
 title: "Predator Prey"
 execute:
   echo: false
+format: 
+  html: 
+    page-layout: full
 ---
 
-Multiple variable, predator/prey simulation.
+Predator/prey simulation for K = 5. 
+From Section 4.6 of [Introduction to the Modeling and Analysis of Complex Systems](https://milneopentextbooks.org/introduction-to-the-modeling-and-analysis-of-complex-systems/).
+
+$$ X_t = X_{t-1} + rX_{t-1}(1 - \frac{X_{t-1}}{K}) - (1 - \frac{1}{by_{t-1} + 1})X_{t-1}$$
+
+$$Y_t = Y_{t-1} - dY_{t-1} + cX_{t-1}Y_{t-1}$$
+
+Where $X_t$ is number of prey at time t and $Y_t$ is number of prey at time t.
 
 ```{ojs}
 
@@ -54,6 +64,8 @@ function update_y(y, x, d, c) {
 ```
 
 ```{ojs}
+//| panel: sidebar
+
 viewof c = Inputs.range(
   [.1, 5], 
   {value: 1, step: .1, label: "C (speed of predator growth rate)"}
@@ -75,8 +87,11 @@ viewof d = Inputs.range(
 )
 ```
 
+::: {#predprey-tabset .panel-tabset .ojs-track-layout}
+## Plots
 
 ```{ojs}
+import { aq, op } from '@uwdata/arquero'
 
 Plot.plot({
     marks: [
@@ -84,10 +99,7 @@ Plot.plot({
     ]
 })
 
-```
 
-```{ojs}
-import { aq, op } from '@uwdata/arquero'
 
 data_tb = aq.from(data)
 
@@ -96,7 +108,12 @@ longdata = data_tb.fold(['prey', 'predator'], { as: ['type', 'count'] })
 Plot.plot({
     marks: [
         Plot.line(longdata, {x: "timestamp", y: "count", stroke: "type"})
-    ]
+    ],
+    color: {
+      legend: true
+    }
 })
 
 ```
+
+:::
