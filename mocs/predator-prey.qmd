@@ -1,0 +1,102 @@
+---
+title: "Predator Prey"
+execute:
+  echo: false
+---
+
+Multiple variable, predator/prey simulation.
+
+```{ojs}
+
+data = {
+
+    let K = 5
+    let num_runs = 100
+    let raw_data = []
+    let x = 1
+    let y = 1
+    let next_x = 0
+    let next_y = 0
+
+    for (let i = 1; i < num_runs; i++) {
+
+        next_x = update_x(x, r, K, b, y)
+        next_y = update_y(y, x, d, c)
+        x = next_x
+        y = next_y
+        raw_data.push({"timestamp": i, "prey": x, "predator": y})
+
+
+    }
+
+    return raw_data
+
+}
+
+```
+
+```{ojs}
+
+function update_x(x, r, K, b, y) {
+
+    let x_1 = x + r*x*(1- (x/K)) - (1-(1/(b*y+1)))*x
+    return x_1
+
+}
+
+function update_y(y, x, d, c) {
+
+    let y_1 = y - d*y + c*x*y 
+    return y_1
+
+}
+
+```
+
+```{ojs}
+viewof c = Inputs.range(
+  [.1, 5], 
+  {value: 1, step: .1, label: "C (speed of predator growth rate)"}
+)
+
+viewof r = Inputs.range(
+  [.1, 5], 
+  {value: 1, step: .1, label: "r (prey growth rate)"}
+)
+
+viewof b = Inputs.range(
+  [.1, 5], 
+  {value: 1, step: .1, label: "b (how quickly death rate of prey increases as predators increase)"}
+)
+
+viewof d = Inputs.range(
+  [.1, 5], 
+  {value: 1, step: .1, label: "d death rate of predators)"}
+)
+```
+
+
+```{ojs}
+
+Plot.plot({
+    marks: [
+        Plot.line(data, {x: "prey", y: "predator"})
+    ]
+})
+
+```
+
+```{ojs}
+import { aq, op } from '@uwdata/arquero'
+
+data_tb = aq.from(data)
+
+longdata = data_tb.fold(['prey', 'predator'], { as: ['type', 'count'] })
+
+Plot.plot({
+    marks: [
+        Plot.line(longdata, {x: "timestamp", y: "count", stroke: "type"})
+    ]
+})
+
+```
