@@ -67,7 +67,7 @@ function update_y(y, x, d, c) {
 //| panel: sidebar
 
 viewof c = Inputs.range(
-  [.1, 5], 
+  [.1, 20], 
   {value: 1, step: .1, label: "C (speed of predator growth rate)"}
 )
 
@@ -77,7 +77,7 @@ viewof r = Inputs.range(
 )
 
 viewof b = Inputs.range(
-  [.1, 5], 
+  [.1, 20], 
   {value: 1, step: .1, label: "b (how quickly death rate of prey increases as predators increase)"}
 )
 
